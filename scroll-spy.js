@@ -90,7 +90,7 @@
 
 		var scrollTopOnScreen = function (scrollTop, groupIndex) {
 			return scrollTop <= offsets[groupIndex] - defaultOffset
-				&& offsets[groupIndex] < scrollTop + scrollableElement.prop('offsetHeight') - defaultOffset
+				&& offsets[groupIndex] < scrollTop + scrollableElement.prop('offsetHeight') - 2*defaultOffset
 		};
 
 		this.update = function () {
