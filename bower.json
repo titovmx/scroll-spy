@@ -1,0 +1,28 @@
+{
+  "name": "scroll-spy",
+  "homepage": "https://github.com/titov-max/scroll-spy",
+  "authors": [
+    "Maxim Titov <mtitov92@gmail.com>"
+  ],
+  "description": "UI component for automatically updating nav targets based on scroll position",
+  "main": "scrollSpy.js",
+  "version": "1.1.0",
+  "keywords": [
+    "scrollspy",
+    "scroll",
+    "form",
+    "angular",
+    "angularjs"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.5.0"
+  }
+}
