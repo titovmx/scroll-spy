@@ -102,7 +102,7 @@
 				refresh();
 			}
 
-			if (scrollTop > maxScroll) {
+			if (scrollTop >= maxScroll) {
 				var item = scrollTop === defaultOffset ? targets[0] : targets[targets.length - 1];
 				if (activeTarget !== item) {
 					activateItem(item);
@@ -115,10 +115,6 @@
 				clear();
 				return;
 			}
-
-			// var activeTargetIndex = targets.indexOf(activeTarget);
-			// if (scrollTopOnScreen(scrollTop, activeTargetIndex))
-			// 	return;
 
 			for (var i = 0; i < offsets.length; i++) {
 				if (scrollTopWithinGroup(scrollTop, i)) {
