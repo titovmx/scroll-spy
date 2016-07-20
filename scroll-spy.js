@@ -1,7 +1,7 @@
 (function (angular) {
 	'use strict';
 
-	angular.module('scrollSpy', [])
+	angular.module('scroll-spy', [])
 		.directive('scrollSpy', scrollSpyDirective)
 		.directive('scrollSpyArea', scrollSpyAreaDirective)
 		.directive('spyItem', spyItemDirective)
