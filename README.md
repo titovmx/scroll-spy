@@ -2,10 +2,14 @@
 
 Angular UI component for automatically updating nav targets based on scroll position
 
-# Licence
+## Licence
 
 Code licensed under MIT license
 
-# Installing via Bower
+## Installing via Bower
 
 bower install scroll-spy
+
+## Demo
+
+http://codepen.io/titov-max/pen/GqxZqm
