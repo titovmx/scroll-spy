@@ -22,7 +22,8 @@
 			offsets = [],
 			targets = [],
 			activeTarget = null,
-			initScrollHeight = 0;
+			initScrollHeight = 0,
+			activeTargetUpdated = false;
 
 		var mapValues = function (obj) {
 			return Object.keys(obj)
@@ -94,6 +95,9 @@
 		};
 
 		this.update = function () {
+			if (activeTargetUpdated) {
+				return;
+			}
 			var scrollTop = scrollableElement.prop('scrollTop') + defaultOffset;
 			var scrollHeight = getScrollHeight();
 			var maxScroll = defaultOffset + scrollHeight - scrollableElement.prop('offsetHeight');
@@ -143,18 +147,12 @@
 		};
 
 		this.activateItemOnClick = function (target) {
-			var scrollTop = scrollableElement.prop('scrollTop') + defaultOffset;
-			var targetIndex = targets.indexOf(target);
-			if (scrollTopOnScreen(scrollTop, targetIndex)) {
-				activateItem(target);
-			} else {
-				$anchorScroll(target);
-				$timeout(function () {
-					if (target !== activeTarget) {
-						activateItem(target);
-					}
-				}, 0);
-			}
+			activeTargetUpdated = true;
+			activateItem(target);
+			$anchorScroll(target);
+			$timeout(function () {
+				activeTargetUpdated = false;
+			}, 100);
 		};
 
 		this.invalidate = function() {
