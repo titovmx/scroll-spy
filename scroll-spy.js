@@ -89,11 +89,6 @@
 				&& (offsets[groupIndex + 1] === undefined || scrollTop < offsets[groupIndex + 1] - defaultOffset);
 		};
 
-		var scrollTopOnScreen = function (scrollTop, groupIndex) {
-			return scrollTop <= offsets[groupIndex] - defaultOffset
-				&& offsets[groupIndex] < scrollTop + scrollableElement.prop('offsetHeight') - 2*defaultOffset
-		};
-
 		this.update = function () {
 			if (activeTargetUpdated) {
 				return;
@@ -147,8 +142,8 @@
 		};
 
 		this.activateItemOnClick = function (target) {
-			activeTargetUpdated = true;
 			activateItem(target);
+			activeTargetUpdated = true;
 			$anchorScroll(target);
 			$timeout(function () {
 				activeTargetUpdated = false;
