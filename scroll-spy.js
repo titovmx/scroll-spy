@@ -9,7 +9,7 @@
 
 	scrollSpyController.$inject = ['$element', '$timeout', '$document', '$window', '$anchorScroll'];
 
-	function scrollSpyController ($element, $timeout, $document, $window, $anchorScroll) {
+	function scrollSpyController ($element, $timeout, $document, $window) {
 		var self = this;
 
 		// div elements associated by target id
@@ -142,19 +142,12 @@
 		};
 
 		this.activateItemOnClick = function (target) {
-			activateItem(target);
 			activeTargetUpdated = true;
-			$anchorScroll(target);
+			activateItem(target);
+			scrollableElement[0].scrollTop = self.groups[target].prop('offsetTop');
 			$timeout(function () {
 				activeTargetUpdated = false;
 			}, 100);
-		};
-
-		this.invalidate = function() {
-			$element.css('position', 'static');
-			$timeout(function () {
-				$element.css('position', 'relative');
-			}, 0);
 		};
 	}
 
@@ -182,7 +175,6 @@
 						ctrl.activate(elem, offset);
 					} else {
 						ctrl.deactivate(elem);
-						ctrl.invalidate();
 					}
 				});
 
