@@ -5,7 +5,7 @@
     "Maxim Titov <mtitov92@gmail.com>"
   ],
   "description": "UI component for automatically updating nav targets based on scroll position",
-  "main": "scrollSpy.js",
+  "main": "scroll-spy.js",
   "version": "1.1.0",
   "keywords": [
     "scrollspy",

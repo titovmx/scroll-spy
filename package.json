@@ -1,0 +1,23 @@
+{
+  "name": "scroll-spy",
+  "version": "1.0.0",
+  "description": "UI component for automatically updating nav targets based on scroll position",
+  "main": "scroll-spy.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/titov-max/scroll-spy.git"
+  },
+  "author": "Maxim Titov <mtitov92@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/titov-max/scroll-spy/issues"
+  },
+  "homepage": "https://github.com/titov-max/scroll-spy#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jasmine": "^2.4.0"
+  }
+}
