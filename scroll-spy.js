@@ -4,6 +4,7 @@
 	angular.module('scroll-spy', [])
 		.directive('scrollSpy', scrollSpyDirective)
 		.directive('scrollSpyArea', scrollSpyAreaDirective)
+		.directive('spyItemList', spyItemListDirective)
 		.directive('spyItem', spyItemDirective)
 		.directive('spyGroup', spyGroupDirective);
 
@@ -16,6 +17,8 @@
 		this.groups = {};
 		// anchor elements associated by target id
 		this.anchors = {};
+		// list item element contained more than one anchor
+		this.itemLists = {};
 
 		var scrollableElement = null,
 			defaultOffset = 10,
@@ -66,12 +69,20 @@
 			activeTarget = target;
 			clear();
 
+			if (self.itemLists[target]) {
+				self.itemLists[target].addClass('active');
+			}
 			self.anchors[target].parent().addClass('active');
 
 			self.groups[target].addClass('active');
 		};
 
 		var clear = function () {
+			mapValues(self.itemLists)
+				.forEach(function (li) {
+					li.removeClass('active');
+				});
+
 			mapValues(self.anchors)
 				.forEach(function(anchor) {
 					anchor.parent().removeClass('active');
@@ -188,6 +199,20 @@
 			}
 		}
 	};
+
+	function spyItemListDirective () {
+		return {
+			restrict: 'A',
+			require: '^scrollSpy',
+			link: function (scope, elem, attrs, ctrl) {
+				if (attrs.target) {
+					ctrl.itemLists[attrs.target] = ctrl.itemLists[attrs.spyItemList] || elem;
+				} else {
+					ctrl.itemLists[attrs.spyItemList] = elem;
+				}
+			}
+		}
+	}
 
 	function spyItemDirective () {
 		return {
