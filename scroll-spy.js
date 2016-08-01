@@ -8,9 +8,10 @@
 		.directive('spyItem', spyItemDirective)
 		.directive('spyGroup', spyGroupDirective);
 
-	scrollSpyController.$inject = ['$element', '$timeout', '$document', '$window', '$anchorScroll'];
+	scrollSpyController.$inject = ['$timeout', '$document', '$window'];
+	scrollSpyAreaDirective.$inject = ['$window'];
 
-	function scrollSpyController ($element, $timeout, $document, $window) {
+	function scrollSpyController ($timeout, $document, $window) {
 		var self = this;
 
 		// div elements associated by target id
@@ -170,17 +171,15 @@
 		};
 	}
 
-	function scrollSpyAreaDirective () {
+	function scrollSpyAreaDirective ($window) {
 		return {
 			restrict: 'A',
 			require: '^scrollSpy',
 			link: function (scope, elem, attrs, ctrl) {
-				// ToDo: find solution to get calculated overflowY without jQuery
-				var $elem = $(elem);
 
 				var offset = parseInt(attrs.spyOffset);
 				scope.$watch(function () {
-					return $elem.css('overflow-y');
+					return $window.getComputedStyle(elem[0]).overflowY;
 				}, function (value) {
 					if (value !== 'hidden') {
 						ctrl.activate(elem, offset);
@@ -192,7 +191,8 @@
 				scope.$watch(function () {
 					return elem[0].offsetHeight;
 				}, function (value) {
-					if ($elem.css('overflow-y') !== 'hidden') {
+					var overflowY = $window.getComputedStyle(elem[0]).overflowY;
+					if (overflowY !== 'hidden') {
 						ctrl.update();
 					}
 				});
