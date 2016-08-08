@@ -4,8 +4,8 @@
 	angular.module('scroll-spy', [])
 		.directive('scrollSpy', scrollSpyDirective)
 		.directive('scrollSpyArea', scrollSpyAreaDirective)
-		.directive('spyItemList', spyItemListDirective)
 		.directive('spyItem', spyItemDirective)
+		.directive('spyListItem', spyListItemDirective)
 		.directive('spyGroup', spyGroupDirective);
 
 	scrollSpyController.$inject = ['$timeout', '$document', '$window'];
@@ -19,7 +19,7 @@
 		// anchor elements associated by target id
 		this.anchors = {};
 		// list item element contained more than one anchor
-		this.itemLists = {};
+		this.listItems = {};
 
 		var scrollableElement = null,
 			defaultOffset = 10,
@@ -70,16 +70,18 @@
 			activeTarget = target;
 			clear();
 
-			if (self.itemLists[target]) {
-				self.itemLists[target].addClass('active');
+			if (self.listItems[target]) {
+				self.listItems[target].parent().addClass('active');
 			}
-			self.anchors[target].parent().addClass('active');
+			if (self.anchors[target]) {
+				self.anchors[target].parent().addClass('active');
+			}
 
 			self.groups[target].addClass('active');
 		};
 
 		var clear = function () {
-			mapValues(self.itemLists)
+			mapValues(self.listItems)
 				.forEach(function (li) {
 					li.removeClass('active');
 				});
@@ -200,20 +202,6 @@
 		}
 	};
 
-	function spyItemListDirective () {
-		return {
-			restrict: 'A',
-			require: '^scrollSpy',
-			link: function (scope, elem, attrs, ctrl) {
-				if (attrs.target) {
-					ctrl.itemLists[attrs.target] = ctrl.itemLists[attrs.spyItemList] || elem;
-				} else {
-					ctrl.itemLists[attrs.spyItemList] = elem;
-				}
-			}
-		}
-	}
-
 	function spyItemDirective () {
 		return {
 			restrict: 'A',
@@ -223,6 +211,20 @@
 				elem.bind('click', function () {
 					ctrl.activateItemOnClick(attrs.target);
 				});
+			}
+		}
+	}
+
+	function spyListItemDirective () {
+		return {
+			restrict: 'A',
+			require: '^scrollSpy',
+			link: function (scope, elem, attrs, ctrl) {
+				ctrl.listItems[attrs.target] = ctrl.anchors[attrs.spyListItem];
+				ctrl.anchors[attrs.target] = elem;
+				elem.bind('click', function () {
+					ctrl.activateItemOnClick(attrs.target);
+				})
 			}
 		}
 	}
