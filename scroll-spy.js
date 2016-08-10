@@ -117,9 +117,7 @@
 
 			if (scrollTop >= maxScroll) {
 				var item = scrollTop === defaultOffset ? targets[0] : targets[targets.length - 1];
-				if (activeTarget !== item) {
-					activateItem(item);
-				}
+				activateItem(item);
 				return;
 			}
 
