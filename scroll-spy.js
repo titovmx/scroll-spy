@@ -41,7 +41,7 @@
 		};
 
 		var getScrollHeight = function () {
-			return scrollableElement.prop('scrollHeight') || Math.max($document[0].body.scrollHeight, $document[0].scrollHeight);
+			return scrollableElement && scrollableElement.prop('scrollHeight') || Math.max($document[0].body.scrollHeight, $document[0].scrollHeight);
 		};
 
 		var refresh = function () {
@@ -85,16 +85,17 @@
 			activeTarget = target;
 			clear();
 
-			if (self.listItems[target]) {
-				var listItem = self.listItems[target];
+			var listItem = self.listItems[target];
+			if (listItem) {
 				getParentListItem(listItem).addClass('active');
 				var title = self.titles[target];
 				if (title) {
 					listItem.text(title);
 				}
 			}
-			if (self.anchors[target]) {
-				var anchor = self.anchors[target];
+
+			var anchor = self.anchors[target];
+			if (anchor) {
 				getParentListItem(anchor).addClass('active');
 				var title = self.titles[target];
 				if (title) {
@@ -114,6 +115,7 @@
 			Object.keys(self.anchors)
 				.forEach(function (key) {
 					var anchor = self.anchors[key];
+					if (!anchor) return;
 					getParentListItem(anchor).removeClass('active');
 					var title = self.titles[key];
 					if (title) {
@@ -136,7 +138,7 @@
 		this.refresh = refresh;
 
 		this.update = function () {
-			if (activeTargetUpdated) {
+			if (!scrollableElement || activeTargetUpdated) {
 				return;
 			}
 			var scrollTop = scrollableElement.prop('scrollTop') + defaultOffset;
@@ -149,7 +151,7 @@
 
 			if (scrollTop >= maxScroll) {
 				var item = scrollTop === defaultOffset ? targets[0] : targets[targets.length - 1];
-				if (!activeTarget) {
+				if (activeTarget !== item) {
 					activateItem(item);
 				}
 				return;
@@ -241,7 +243,7 @@
 			link: function (scope, elem, attrs, ctrl) {
 				ctrl.anchors[attrs.target] = elem;
 				if (attrs.spyItemTitle) {
-					ctrl.titles[attrs.target] = $parse(attrs.spyItemTitle)(scope);
+					ctrl.titles[attrs.target] = $parse(attrs.spyItemTitle)(scope) || attrs.spyItemTitle;
 				}
 				elem.bind('click', function () {
 					ctrl.activateItemOnClick(attrs.target);
@@ -258,7 +260,7 @@
 				ctrl.listItems[attrs.target] = ctrl.anchors[attrs.spyListItem];
 				ctrl.anchors[attrs.target] = elem;
 				if (attrs.spyItemTitle) {
-					ctrl.titles[attrs.target] = $parse(attrs.spyItemTitle)(scope);
+					ctrl.titles[attrs.target] = $parse(attrs.spyItemTitle)(scope) || attrs.spyItemTitle;
 				}
 				elem.bind('click', function () {
 					ctrl.activateItemOnClick(attrs.target);
