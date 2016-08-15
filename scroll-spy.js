@@ -47,6 +47,10 @@
 			activeTarget = null;
 			initScrollHeight = getScrollHeight();
 
+			console.log('--- In Refresh ---');
+			console.log(self.groups);
+			console.log('--- ^ self.groups ---');
+
 			Object.keys(self.groups)
 				.map(function (groupTarget) {
 					var groupElement = self.groups[groupTarget];
@@ -66,15 +70,29 @@
 				});
 		};
 
+		var getParentListItem = function (current) {
+			var parent = current.parent();
+			while (parent[0] && parent[0].tagName !== 'LI') {
+				parent = parent.parent();
+			}
+			return parent;
+		};
+
 		var activateItem = function (target) {
+			console.log('--- In activateItem ---');
+			console.log(target);
+			console.log('--- ^ target ---');
+			if (!target) {
+				return;
+			}
 			activeTarget = target;
 			clear();
 
 			if (self.listItems[target]) {
-				self.listItems[target].parent().addClass('active');
+				getParentListItem(self.listItems[target]).addClass('active');
 			}
 			if (self.anchors[target]) {
-				self.anchors[target].parent().addClass('active');
+				getParentListItem(self.anchors[target]).addClass('active');
 			}
 
 			self.groups[target].addClass('active');
@@ -83,12 +101,12 @@
 		var clear = function () {
 			mapValues(self.listItems)
 				.forEach(function (li) {
-					li.removeClass('active');
+					getParentListItem(li).removeClass('active');
 				});
 
 			mapValues(self.anchors)
 				.forEach(function(anchor) {
-					anchor.parent().removeClass('active');
+					getParentListItem(anchor).removeClass('active');
 				});
 
 			mapValues(self.groups)
@@ -103,7 +121,10 @@
 				&& (offsets[groupIndex + 1] === undefined || scrollTop < offsets[groupIndex + 1] - defaultOffset);
 		};
 
+		this.refresh = refresh;
+
 		this.update = function () {
+			console.log('--- In Update ---');
 			if (activeTargetUpdated) {
 				return;
 			}
@@ -117,7 +138,9 @@
 
 			if (scrollTop >= maxScroll) {
 				var item = scrollTop === defaultOffset ? targets[0] : targets[targets.length - 1];
-				activateItem(item);
+				if (!activeTarget) {
+					activateItem(item);
+				}
 				return;
 			}
 
@@ -205,6 +228,7 @@
 			restrict: 'A',
 			require: '^scrollSpy',
 			link: function (scope, elem, attrs, ctrl) {
+				console.log('--- In spy item ---');
 				ctrl.anchors[attrs.target] = elem;
 				elem.bind('click', function () {
 					ctrl.activateItemOnClick(attrs.target);
@@ -232,7 +256,11 @@
 			restrict: 'A',
 			require: '^scrollSpy',
 			link: function (scope, elem, attrs, ctrl) {
+				console.log('--- In spy group ---');
 				ctrl.groups[attrs.id] = elem;
+
+				ctrl.refresh();
+				ctrl.update();
 			}
 		}
 	}
