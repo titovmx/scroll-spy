@@ -10,6 +10,8 @@
 
 	scrollSpyController.$inject = ['$timeout', '$document', '$window'];
 	scrollSpyAreaDirective.$inject = ['$window'];
+	spyListItemDirective.$inject = ['$parse'];
+	spyItemDirective.$inject = ['$parse'];
 
 	function scrollSpyController ($timeout, $document, $window) {
 		var self = this;
@@ -20,6 +22,8 @@
 		this.anchors = {};
 		// list item element contained more than one anchor
 		this.listItems = {};
+		// anchor elements titles associated by target id
+		this.titles = {};
 
 		var scrollableElement = null,
 			defaultOffset = 10,
@@ -46,10 +50,6 @@
 			targets = [];
 			activeTarget = null;
 			initScrollHeight = getScrollHeight();
-
-			console.log('--- In Refresh ---');
-			console.log(self.groups);
-			console.log('--- ^ self.groups ---');
 
 			Object.keys(self.groups)
 				.map(function (groupTarget) {
@@ -79,9 +79,6 @@
 		};
 
 		var activateItem = function (target) {
-			console.log('--- In activateItem ---');
-			console.log(target);
-			console.log('--- ^ target ---');
 			if (!target) {
 				return;
 			}
@@ -89,10 +86,20 @@
 			clear();
 
 			if (self.listItems[target]) {
-				getParentListItem(self.listItems[target]).addClass('active');
+				var listItem = self.listItems[target];
+				getParentListItem(listItem).addClass('active');
+				var title = self.titles[target];
+				if (title) {
+					listItem.text(title);
+				}
 			}
 			if (self.anchors[target]) {
-				getParentListItem(self.anchors[target]).addClass('active');
+				var anchor = self.anchors[target];
+				getParentListItem(anchor).addClass('active');
+				var title = self.titles[target];
+				if (title) {
+					anchor.text(title);
+				}
 			}
 
 			self.groups[target].addClass('active');
@@ -104,9 +111,14 @@
 					getParentListItem(li).removeClass('active');
 				});
 
-			mapValues(self.anchors)
-				.forEach(function(anchor) {
+			Object.keys(self.anchors)
+				.forEach(function (key) {
+					var anchor = self.anchors[key];
 					getParentListItem(anchor).removeClass('active');
+					var title = self.titles[key];
+					if (title) {
+						anchor.text(title);
+					}
 				});
 
 			mapValues(self.groups)
@@ -124,7 +136,6 @@
 		this.refresh = refresh;
 
 		this.update = function () {
-			console.log('--- In Update ---');
 			if (activeTargetUpdated) {
 				return;
 			}
@@ -223,13 +234,15 @@
 		}
 	};
 
-	function spyItemDirective () {
+	function spyItemDirective ($parse) {
 		return {
 			restrict: 'A',
 			require: '^scrollSpy',
 			link: function (scope, elem, attrs, ctrl) {
-				console.log('--- In spy item ---');
 				ctrl.anchors[attrs.target] = elem;
+				if (attrs.spyItemTitle) {
+					ctrl.titles[attrs.target] = $parse(attrs.spyItemTitle)(scope);
+				}
 				elem.bind('click', function () {
 					ctrl.activateItemOnClick(attrs.target);
 				});
@@ -237,16 +250,19 @@
 		}
 	}
 
-	function spyListItemDirective () {
+	function spyListItemDirective ($parse) {
 		return {
 			restrict: 'A',
 			require: '^scrollSpy',
 			link: function (scope, elem, attrs, ctrl) {
 				ctrl.listItems[attrs.target] = ctrl.anchors[attrs.spyListItem];
 				ctrl.anchors[attrs.target] = elem;
+				if (attrs.spyItemTitle) {
+					ctrl.titles[attrs.target] = $parse(attrs.spyItemTitle)(scope);
+				}
 				elem.bind('click', function () {
 					ctrl.activateItemOnClick(attrs.target);
-				})
+				});
 			}
 		}
 	}
@@ -256,7 +272,6 @@
 			restrict: 'A',
 			require: '^scrollSpy',
 			link: function (scope, elem, attrs, ctrl) {
-				console.log('--- In spy group ---');
 				ctrl.groups[attrs.id] = elem;
 
 				ctrl.refresh();
