@@ -157,13 +157,13 @@
 				return;
 			}
 
-			if (activeTarget && scrollTop < offsets[0]) {
+			if (activeTarget && scrollTop < offsets[0] - defaultOffset) {
 				activeTarget = null;
 				clear();
 				return;
 			}
 
-			for (var i = 0; i < offsets.length; i++) {
+			for (var i = 0, length = offsets.length; i < length; i++) {
 				if (scrollTopWithinGroup(scrollTop, i)) {
 					activateItem(targets[i]);
 					return;
