@@ -1,6 +1,6 @@
-scrollSpyController.$inject = ['$timeout', '$document', '$window'];
+ScrollSpyController.$inject = ['$timeout', '$document', '$window'];
 
-class scrollSpyController {
+class ScrollSpyController {
   controller($timeout, $document, $window) {
 	// div elements associated by target id
 	this.groups = {};
@@ -176,4 +176,4 @@ class scrollSpyController {
   };
 }
 
-export {scrollSpyController};
+export {ScrollSpyController};

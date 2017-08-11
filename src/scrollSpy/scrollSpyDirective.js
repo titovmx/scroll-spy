@@ -1,10 +1,10 @@
-import {scrollSpyController} from './scrollSpyController';
+import {ScrollSpyController} from './scrollSpyController';
 
-class scrollSpyDirective {
+class ScrollSpyDirective {
   constructor() {
 	this.restrict = 'A';
-	this.controller = scrollSpyController;
+	this.controller = ScrollSpyController;
   }
 }
 
-export {scrollSpyDirective};
+export {ScrollSpyDirective};

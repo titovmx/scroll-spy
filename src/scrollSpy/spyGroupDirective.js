@@ -1,4 +1,4 @@
-class spyGroupDirective {
+class SpyGroupDirective {
   controller() {
 	this.restrict = 'A';
 	this.require = '^scrollSpy';
@@ -12,4 +12,4 @@ class spyGroupDirective {
   }
 }
 
-export {spyGroupDirective};
+export {SpyGroupDirective};

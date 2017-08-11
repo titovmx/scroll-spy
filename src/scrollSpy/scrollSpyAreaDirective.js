@@ -1,6 +1,6 @@
-scrollSpyAreaDirective.$inject = ['$window'];
+ScrollSpyAreaDirective.$inject = ['$window'];
 
-class scrollSpyAreaDirective {
+class ScrollSpyAreaDirective {
   controller($window) {
 	this.restrict = 'A';
 	this.require = '^scrollSpy';
@@ -27,4 +27,4 @@ class scrollSpyAreaDirective {
   }
 }
 
-export {scrollSpyAreaDirective};
+export {ScrollSpyAreaDirective};

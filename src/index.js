@@ -1,12 +1,12 @@
-import {scrollSpyDirective} from './scrollSpy/scrollSpyDirective';
-import {scrollSpyAreaDirective} from './scrollSpy/scrollSpyAreaDirective';
-import {spyItemDirective} from './scrollSpy/spyItemDirective';
-import {spyListItemDirective} from './scrollSpy/spyListItemDirective';
-import {spyGroupDirective} from './scrollSpy/spyGroupDirective';
+import {ScrollSpyDirective} from './scrollSpy/scrollSpyDirective';
+import {ScrollSpyAreaDirective} from './scrollSpy/scrollSpyAreaDirective';
+import {SpyItemDirective} from './scrollSpy/spyItemDirective';
+import {SpyListItemDirective} from './scrollSpy/spyListItemDirective';
+import {SpyGroupDirective} from './scrollSpy/spyGroupDirective';
 
 module.exports = angular.module('scroll-spy', [])
-  .directive('scrollSpy', scrollSpyDirective)
-  .directive('scrollSpyArea', scrollSpyAreaDirective)
-  .directive('spyItem', spyItemDirective)
-  .directive('spyListItem', spyListItemDirective)
-  .directive('spyGroup', spyGroupDirective);
+  .directive('scrollSpy', ScrollSpyDirective)
+  .directive('scrollSpyArea', ScrollSpyAreaDirective)
+  .directive('spyItem', SpyItemDirective)
+  .directive('spyListItem', SpyListItemDirective)
+  .directive('spyGroup', SpyGroupDirective);

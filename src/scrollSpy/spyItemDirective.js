@@ -1,6 +1,6 @@
-spyItemDirective.$inject = ['$parse'];
+SpyItemDirective.$inject = ['$parse'];
 
-class spyItemDirective {
+class SpyItemDirective {
   constructor($parse) {
 	this.restrict = 'A';
 	this.require = '^scrollSpy';
@@ -16,4 +16,4 @@ class spyItemDirective {
   }
 }
 
-export {spyItemDirective};
+export {SpyItemDirective};
