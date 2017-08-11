@@ -15,9 +15,9 @@ class ScrollSpyController {
 	this.activeTarget = null;
 	this.initScrollHeight = 0;
 	this.activeTargetUpdated = false;
-	this.$timeout = $timeout;
-	this.$document = $document;
-	this.$window = $window;
+	// this.$timeout = $timeout;
+	// this.$document = $document;
+	// this.$window = $window;
   }
 
   mapValues(obj) {
@@ -156,7 +156,7 @@ class ScrollSpyController {
 
 	element.bind('scroll', this.update);
 	const window = angular.element($window);
-	window.bind('resize', () => this.$timeout(this.update, 100));
+	window.bind('resize', () => (this.update, 100));
 
 	this.refresh();
 	this.update();
@@ -170,10 +170,12 @@ class ScrollSpyController {
 	this.activeTargetUpdated = true;
 	this.activateItem(target);
 	this.scrollableElement[0].scrollTop = this.groups[target].prop('offsetTop');
-	this.$timeout(() => this.activeTargetUpdated = false, 100);
+	$timeout(() => this.activeTargetUpdated = false, 100);
   };
 }
 
 ScrollSpyController.$inject = ['$timeout', '$document', '$window'];
 
 export {ScrollSpyController};
+
+// module.exports = ScrollSpyController;

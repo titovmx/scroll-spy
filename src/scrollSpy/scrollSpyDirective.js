@@ -12,3 +12,5 @@ class ScrollSpyDirective {
 }
 
 export {ScrollSpyDirective};
+
+// module.exports = ScrollSpyDirective;

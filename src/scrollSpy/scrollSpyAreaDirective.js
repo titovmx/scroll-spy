@@ -2,13 +2,13 @@ class ScrollSpyAreaDirective {
   controller($window) {
 	this.restrict = 'A';
 	this.require = '^scrollSpy';
-	this.$window = $window;
+	// this.$window = $window;
   }
 
   link(scope, elem, attrs, ctrl) {
 
 	const offset = parseInt(attrs.spyOffset);
-	scope.$watch(() => this.$window.getComputedStyle(elem[0]).overflowY, (value) => {
+	scope.$watch(() => $window.getComputedStyle(elem[0]).overflowY, (value) => {
 	  if (value !== 'hidden') {
 		ctrl.activate(elem, offset);
 	  } else {
@@ -17,7 +17,7 @@ class ScrollSpyAreaDirective {
 	});
 
 	scope.$watch(() => elem[0].offsetHeight, (value) => {
-	  const overflowY = this.$window.getComputedStyle(elem[0]).overflowY;
+	  const overflowY = $window.getComputedStyle(elem[0]).overflowY;
 	  if (overflowY !== 'hidden') {
 		ctrl.update();
 	  }
@@ -29,7 +29,9 @@ class ScrollSpyAreaDirective {
   }
 }
 
-ScrollSpyAreaDirective.$inject = ['$window'];
+// ScrollSpyAreaDirective.$inject = ['$window'];
 ScrollSpyAreaDirective.createInstance.$inject = ['$window'];
 
 export {ScrollSpyAreaDirective};
+
+// module.exports = ScrollSpyAreaDirective;

@@ -18,3 +18,5 @@ class SpyGroupDirective {
 }
 
 export {SpyGroupDirective};
+
+// module.exports = SpyGroupDirective;
