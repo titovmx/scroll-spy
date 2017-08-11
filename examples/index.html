@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../node_modules/angular/angular.js"></script>
+  <script src="../lib/scroll-spy.js"></script>
+  <script src="app.js"></script>
+</head>
+<body ng-app='app' ng-controller="ExampleCtrl">
+<div scroll-spy class="scrollContainer">
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <ul class="nav navbar-nav">
+      <li>
+        <a spy-item data-target="section1">Section 1</a>
+      </li>
+      <li>
+        <a spy-item data-target="section2">Section 2</a>
+      </li>
+      <li>
+        <a spy-item data-target="section3">Section 3</a>
+      </li>
+    </ul>
+  </nav>
+  <div scroll-spy-area spy-offset="20" class="content">
+    <div class="group" spy-group id="section1">
+      <h2>Section 1</h2>
+      Ut a sollicitudin enim. Cras at ipsum metus. Nullam nec nibh augue. Nullam viverra ligula sit amet mi volutpat,
+      feugiat sollicitudin est rutrum. In in lectus a tellus aliquam consequat et vel tortor. Vivamus efficitur eros sed
+      auctor feugiat. Cras pretium purus ac quam pretium ornare. In bibendum, velit in faucibus egestas, nibh velit
+      lacinia elit, a accumsan nunc ligula ut felis. Fusce rutrum mi vel nisi dignissim iaculis. Curabitur quis sapien
+      nec nunc aliquam tincidunt id quis metus. Suspendisse posuere urna in tortor molestie bibendum. Mauris a luctus
+      arcu. Nam volutpat tristique tempor. Nam auctor, urna nec tempor rhoncus, est ipsum luctus leo, vitae fermentum
+      erat velit sed massa. Phasellus dapibus tempus nunc, non blandit nunc ornare quis.
+      Sed eu felis eu ligula accumsan bibendum at tempus dui. Nullam iaculis tincidunt viverra. Vivamus rhoncus accumsan
+      sollicitudin. Nulla vitae iaculis velit. In elementum ligula sed suscipit malesuada. Pellentesque a fermentum sem,
+      in molestie augue. Curabitur dictum ornare imperdiet. Ut nec justo ut massa malesuada mattis. Suspendisse quis
+      consectetur nisl. Ut commodo lacinia arcu, id vehicula lorem malesuada ut. Fusce sit amet nulla ut purus interdum
+      dignissim.
+    </div>
+    <div class="group" spy-group id="section2">
+      <h2>Section 2</h2>
+      Duis aliquam dui eros, a iaculis risus ornare eu. Duis consequat ultricies augue, vitae gravida odio tincidunt
+      vitae. Mauris dictum orci et est aliquam mollis. Donec eget augue nisl. Aliquam erat volutpat. Praesent finibus
+      consectetur nisi nec blandit. Sed ut nunc sed quam egestas faucibus. Donec tincidunt quam quis bibendum
+      vestibulum. Aliquam luctus libero sit amet enim interdum, vel scelerisque arcu lobortis. Donec aliquet nibh a
+      tristique bibendum. Suspendisse et tellus tellus. Praesent ultricies porta magna, a pharetra ex congue nec. In
+      vestibulum tincidunt nisi ac consectetur. Sed viverra nisl nec urna egestas venenatis. Maecenas ornare ante id
+      bibendum vulputate. In luctus ultricies nibh, nec pellentesque ligula pharetra ac. Aliquam luctus libero sit amet
+      enim interdum, vel scelerisque arcu lobortis. Donec aliquet nibh a tristique bibendum. Suspendisse et tellus
+      tellus. Praesent ultricies porta magna, a pharetra ex congue nec. In vestibulum tincidunt nisi ac consectetur. Sed
+      viverra nisl nec urna egestas venenatis. Maecenas ornare ante id bibendum vulputate.
+    </div>
+    <div class="group" spy-group id="section3">
+      <h2>Section 3</h2>
+      Duis aliquam dui eros, a iaculis risus ornare eu. Duis consequat ultricies augue, vitae gravida odio tincidunt
+      vitae. Mauris dictum orci et est aliquam mollis. Donec eget augue nisl. Aliquam erat volutpat. Praesent finibus
+      consectetur nisi nec blandit. Sed ut nunc sed quam egestas faucibus. Donec tincidunt quam quis bibendum
+      vestibulum. Aliquam luctus libero sit amet enim interdum, vel scelerisque arcu lobortis. Donec aliquet nibh a
+      tristique bibendum. Suspendisse et tellus tellus. Praesent ultricies porta magna, a pharetra ex congue nec. In
+      vestibulum tincidunt nisi ac consectetur. Sed viverra nisl nec urna egestas venenatis. Maecenas ornare ante id
+      bibendum vulputate. In luctus ultricies nibh, nec pellentesque ligula pharetra ac.
+      Vivamus ultrices in nisl feugiat sollicitudin. Ut eu turpis sed leo porta sodales vel vel tellus. Donec laoreet
+      vehicula felis non posuere. Morbi blandit feugiat tellus, eget pharetra arcu. Ut vel ipsum non neque molestie
+      tincidunt. Quisque rutrum condimentum ante eget eleifend. Duis elementum velit felis, nec venenatis justo accumsan
+      a.
+      END
+    </div>
+  </div>
+</div>
+</body>
+</html>
