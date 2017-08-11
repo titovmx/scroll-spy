@@ -24,9 +24,7 @@ class scrollSpyController {
 
   mapValues(obj) {
 	return Object.keys(obj)
-	  .map(function (key) {
-		return obj[key];
-	  });
+	  .map((key) => obj[key]);
   };
 
   getScrollHeight() {
@@ -41,7 +39,7 @@ class scrollSpyController {
 	this.initScrollHeight = this.getScrollHeight();
 
 	Object.keys(this.groups)
-	  .map(function (groupTarget) {
+	  .map((groupTarget) => {
 		const groupElement = this.groups[groupTarget];
 		if (groupElement.css('visibility') !== 'hidden') {
 		  return {
@@ -50,10 +48,8 @@ class scrollSpyController {
 		  };
 		}
 	  })
-	  .sort(function (a, b) {
-		return a.offset - b.offset;
-	  })
-	  .forEach(function (mappedObj) {
+	  .sort((a, b) => a.offset - b.offset)
+	  .forEach((mappedObj) => {
 		this.offsets.push(mappedObj.offset);
 		this.targets.push(mappedObj.target);
 	  });
@@ -97,12 +93,10 @@ class scrollSpyController {
 
   clear() {
 	this.mapValues(this.listItems)
-	  .forEach(function (li) {
-		this.getParentListItem(li).removeClass('active');
-	  });
+	  .forEach((li) => this.getParentListItem(li).removeClass('active'));
 
 	Object.keys(this.anchors)
-	  .forEach(function (key) {
+	  .forEach((key) => {
 		const anchor = this.anchors[key];
 		if (!anchor) return;
 		this.getParentListItem(anchor).removeClass('active');
@@ -113,7 +107,7 @@ class scrollSpyController {
 	  });
 
 	this.mapValues(this.groups)
-	  .forEach(function (group) {
+	  .forEach((group) => {
 		group.removeClass('active');
 	  });
   };
@@ -164,9 +158,7 @@ class scrollSpyController {
 
 	element.bind('scroll', this.update);
 	const window = angular.element($window);
-	window.bind('resize', function () {
-	  this.$timeout(this.update, 100);
-	});
+	window.bind('resize', () => this.$timeout(this.update, 100));
 
 	this.refresh();
 	this.update();
@@ -180,9 +172,7 @@ class scrollSpyController {
 	this.activeTargetUpdated = true;
 	this.activateItem(target);
 	this.scrollableElement[0].scrollTop = this.groups[target].prop('offsetTop');
-	this.$timeout(() => {
-	  this.activeTargetUpdated = false;
-	}, 100);
+	this.$timeout(() => this.activeTargetUpdated = false, 100);
   };
 }
 

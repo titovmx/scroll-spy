@@ -4,16 +4,15 @@ class spyItemDirective {
   constructor($parse) {
 	this.restrict = 'A';
 	this.require = '^scrollSpy';
+	this.$parse = $parse;
   }
 
   link(scope, elem, attrs, ctrl) {
 	ctrl.anchors[attrs.target] = elem;
 	if (attrs.spyItemTitle) {
-	  ctrl.titles[attrs.target] = $parse(attrs.spyItemTitle)(scope) || attrs.spyItemTitle;
+	  ctrl.titles[attrs.target] = this.$parse(attrs.spyItemTitle)(scope) || attrs.spyItemTitle;
 	}
-	elem.bind('click', function () {
-	  ctrl.activateItemOnClick(attrs.target);
-	});
+	elem.bind('click', () => ctrl.activateItemOnClick(attrs.target));
   }
 }
 

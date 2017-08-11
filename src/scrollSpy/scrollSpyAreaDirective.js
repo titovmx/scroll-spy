@@ -4,14 +4,13 @@ class scrollSpyAreaDirective {
   controller($window) {
 	this.restrict = 'A';
 	this.require = '^scrollSpy';
+	this.$window = $window;
   }
 
   link(scope, elem, attrs, ctrl) {
 
 	const offset = parseInt(attrs.spyOffset);
-	scope.$watch(function () {
-	  return $window.getComputedStyle(elem[0]).overflowY;
-	}, function (value) {
+	scope.$watch(() => this.$window.getComputedStyle(elem[0]).overflowY, (value) => {
 	  if (value !== 'hidden') {
 		ctrl.activate(elem, offset);
 	  } else {
@@ -19,10 +18,8 @@ class scrollSpyAreaDirective {
 	  }
 	});
 
-	scope.$watch(function () {
-	  return elem[0].offsetHeight;
-	}, function (value) {
-	  const overflowY = $window.getComputedStyle(elem[0]).overflowY;
+	scope.$watch(() => elem[0].offsetHeight, (value) => {
+	  const overflowY = this.$window.getComputedStyle(elem[0]).overflowY;
 	  if (overflowY !== 'hidden') {
 		ctrl.update();
 	  }
