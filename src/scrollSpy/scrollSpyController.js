@@ -17,6 +17,9 @@ class scrollSpyController {
 	this.activeTarget = null;
 	this.initScrollHeight = 0;
 	this.activeTargetUpdated = false;
+	this.$timeout = $timeout;
+	this.$document = $document;
+	this.$window = $window;
   }
 
   mapValues(obj) {
