@@ -1,14 +1,15 @@
-function spyGroupDirective() {
-  return {
-	restrict: 'A',
-	require: '^scrollSpy',
-	link: function (scope, elem, attrs, ctrl) {
-	  ctrl.groups[attrs.id] = elem;
+class spyGroupDirective {
+  controller() {
+	this.restrict = 'A';
+	this.require = '^scrollSpy';
+  }
 
-	  ctrl.refresh();
-	  ctrl.update();
-	}
-  };
+  link(scope, elem, attrs, ctrl) {
+	ctrl.groups[attrs.id] = elem;
+
+	ctrl.refresh();
+	ctrl.update();
+  }
 }
 
 export {spyGroupDirective};

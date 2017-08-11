@@ -1,10 +1,10 @@
 import {scrollSpyController} from './scrollSpyController';
 
-function scrollSpyDirective() {
-  return {
-	restrict: 'A',
-	controller: scrollSpyController
-  };
+class scrollSpyDirective {
+  constructor() {
+	this.restrict = 'A';
+	this.controller = scrollSpyController;
+  }
 }
 
 export {scrollSpyDirective};
