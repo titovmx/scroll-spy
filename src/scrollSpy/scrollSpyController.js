@@ -1,3 +1,5 @@
+scrollSpyController.$inject = ['$timeout', '$document', '$window'];
+
 class scrollSpyController {
   controller($timeout, $document, $window) {
 	// div elements associated by target id
@@ -180,7 +182,5 @@ class scrollSpyController {
 	}, 100);
   };
 }
-
-scrollSpyController.$inject = ['$timeout', '$document', '$window'];
 
 export {scrollSpyController};

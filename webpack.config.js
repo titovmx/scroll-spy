@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const config = {
   devtool: 'source-map',
-  entry: path.join(APP_DIR + '/scroll-spy.js'),
+  entry: path.join(APP_DIR + '/index.js'),
   output: {
 	path: BUILD_DIR,
 	filename: 'scroll-spy.js',
