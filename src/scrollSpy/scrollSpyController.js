@@ -1,5 +1,3 @@
-ScrollSpyController.$inject = ['$timeout', '$document', '$window'];
-
 class ScrollSpyController {
   controller($timeout, $document, $window) {
 	// div elements associated by target id
@@ -175,5 +173,7 @@ class ScrollSpyController {
 	this.$timeout(() => this.activeTargetUpdated = false, 100);
   };
 }
+
+ScrollSpyController.$inject = ['$timeout', '$document', '$window'];
 
 export {ScrollSpyController};

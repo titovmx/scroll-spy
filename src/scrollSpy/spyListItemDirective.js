@@ -1,5 +1,3 @@
-SpyListItemDirective.$inject = ['$parse'];
-
 class SpyListItemDirective {
   constructor($parse) {
 	this.restrict = 'A';
@@ -15,6 +13,13 @@ class SpyListItemDirective {
 	}
 	elem.bind('click', () => ctrl.activateItemOnClick(attrs.target));
   }
+  static createInstance($parse) {
+	SpyListItemDirective.instance =  new SpyListItemDirective($parse);
+	return SpyListItemDirective.instance;
+  }
 }
+
+SpyListItemDirective.$inject = ['$parse'];
+SpyListItemDirective.createInstance.$inject = ['$parse'];
 
 export {SpyListItemDirective};

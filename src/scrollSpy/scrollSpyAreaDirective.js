@@ -1,5 +1,3 @@
-ScrollSpyAreaDirective.$inject = ['$window'];
-
 class ScrollSpyAreaDirective {
   controller($window) {
 	this.restrict = 'A';
@@ -25,6 +23,13 @@ class ScrollSpyAreaDirective {
 	  }
 	});
   }
+  static createInstance($window) {
+	ScrollSpyAreaDirective.instance =  new ScrollSpyAreaDirective($window);
+	return ScrollSpyAreaDirective.instance;
+  }
 }
+
+ScrollSpyAreaDirective.$inject = ['$window'];
+ScrollSpyAreaDirective.createInstance.$inject = ['$window'];
 
 export {ScrollSpyAreaDirective};

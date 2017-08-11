@@ -10,6 +10,11 @@ class SpyGroupDirective {
 	ctrl.refresh();
 	ctrl.update();
   }
+
+  static createInstance() {
+	SpyGroupDirective.instance =  new SpyGroupDirective();
+	return SpyGroupDirective.instance;
+  }
 }
 
 export {SpyGroupDirective};
