@@ -2,9 +2,11 @@
   "name": "scroll-spy",
   "version": "1.0.0",
   "description": "UI component for automatically updating nav targets based on scroll position",
-  "main": "scroll-spy.js",
+  "main": "lib/scroll-spy.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack -p",
+    "dev": "webpack --progress --colors --watch --env dev"
   },
   "repository": {
     "type": "git",
@@ -17,7 +19,12 @@
   },
   "homepage": "https://github.com/titov-max/scroll-spy#readme",
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-jasmine": "^2.4.0"
+    "angular": "^1.6.5",
+    "babel-core": "^6.25.0",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-es2015": "^6.24.1",
+    "webpack": "^3.5.3"
   }
 }
