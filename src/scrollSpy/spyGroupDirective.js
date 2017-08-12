@@ -1,5 +1,5 @@
 export default class SpyGroupDirective {
-  controller() {
+  constructor() {
     this.restrict = 'A';
     this.require = '^scrollSpy';
   }
@@ -16,4 +16,3 @@ export default class SpyGroupDirective {
     return SpyGroupDirective.instance;
   }
 }
-
