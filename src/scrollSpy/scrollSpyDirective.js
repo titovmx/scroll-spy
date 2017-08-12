@@ -1,4 +1,4 @@
-import * as ScrollSpyController from './scrollSpyController';
+import ScrollSpyController from './scrollSpyController';
 
 export default class ScrollSpyDirective {
   constructor() {
@@ -10,4 +10,4 @@ export default class ScrollSpyDirective {
     ScrollSpyDirective.instance = new ScrollSpyDirective();
     return ScrollSpyDirective.instance;
   }
-}
+};

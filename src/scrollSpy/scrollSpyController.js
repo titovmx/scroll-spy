@@ -1,20 +1,16 @@
 const _timeout = new WeakMap();
 const _document = new WeakMap();
 const _window = new WeakMap();
+const _anchors = new Map();
+const _groups = new Map();
+const _listItems = new Map();
+const _titles = new Map();
 
 export default class ScrollSpyController {
   controller($timeout, $document, $window) {
     _timeout.set(this, $timeout);
     _document.set(this, $document);
     _window.set(this, $window);
-    // div elements associated by target id
-    this.groups = {};
-    // anchor elements associated by target id
-    this.anchors = {};
-    // list item element contained more than one anchor
-    this.listItems = {};
-    // anchor elements titles associated by target id
-    this.titles = {};
     this.scrollableElement = null;
     this.defaultOffset = 10;
     this.offsets = [];
@@ -23,6 +19,24 @@ export default class ScrollSpyController {
     this.initScrollHeight = 0;
     this.activeTargetUpdated = false;
   }
+
+  getAnchors() {
+    return _anchors;
+  };
+
+  setAnchor(name, item) {
+    _anchors.set(name, item);
+  };
+
+  setGroup(name, item) {
+    _groups.set(name, item);
+  };
+  setTitle(name, item) {
+    _titles.set(name, item);
+  };
+  setListItem(name, item) {
+    _listItems.set(name, item);
+  };
 
   mapValues(obj) {
     return Object.keys(obj)
@@ -41,21 +55,22 @@ export default class ScrollSpyController {
     this.activeTarget = null;
     this.initScrollHeight = this.getScrollHeight();
 
-    Object.keys(this.groups)
-      .map((groupTarget) => {
-        const groupElement = this.groups[groupTarget];
-        if (groupElement.css('visibility') !== 'hidden') {
-          return {
-            offset: groupElement.prop('offsetTop'),
-            target: groupTarget
-          };
-        }
-      })
-      .sort((a, b) => a.offset - b.offset)
-      .forEach((mappedObj) => {
-        this.offsets.push(mappedObj.offset);
-        this.targets.push(mappedObj.target);
-      });
+    // Object.keys(this.groups)
+    //   .map((groupTarget) => {
+    //     const groupElement = this.groups[groupTarget];
+    //     if (groupElement.css('visibility') !== 'hidden') {
+    //       return {
+    //         offset: groupElement.prop('offsetTop'),
+    //         target: groupTarget
+    //       };
+    //     }
+    //   })
+    //   .sort((a, b) => a.offset - b.offset)
+    //   .forEach((mappedObj) => {
+    //     this.offsets.push(mappedObj.offset);
+    //     this.targets.push(mappedObj.target);
+    //   });
+    debugger;
   };
 
   getParentListItem(current) {
@@ -73,43 +88,44 @@ export default class ScrollSpyController {
     this.activeTarget = target;
     this.clear();
 
-    const listItem = this.listItems[target];
+    const listItem = _listItems.get(target);
     if (listItem) {
       this.getParentListItem(listItem).addClass('active');
-      const title = this.titles[target];
+      const title = _titles.get(target);
       if (title) {
         listItem.text(title);
       }
     }
 
-    const anchor = this.anchors[target];
+    const anchor = _anchors.get(target);
     if (anchor) {
       this.getParentListItem(anchor).addClass('active');
-      const title = this.titles[target];
+      const title = _titles.get(target);
       if (title) {
         anchor.text(title);
       }
     }
 
-    this.groups[target].addClass('active');
+    _groups.get(target).addClass('active');
   };
 
   clear() {
-    this.mapValues(this.listItems)
+    this.mapValues(_listItems)
       .forEach((li) => this.getParentListItem(li).removeClass('active'));
 
-    Object.keys(this.anchors)
-      .forEach((key) => {
-        const anchor = this.anchors[key];
-        if (!anchor) return;
-        this.getParentListItem(anchor).removeClass('active');
-        const title = this.titles[key];
-        if (title) {
-          anchor.text(title);
-        }
-      });
+    // Object.keys(this.anchors)
+    //   .forEach((key) => {
+    //     const anchor = this.anchors[key];
+    //     if (!anchor) return;
+    //     this.getParentListItem(anchor).removeClass('active');
+    //     const title = this.titles[key];
+    //     if (title) {
+    //       anchor.text(title);
+    //     }
+    //   });
+    debugger;
 
-    this.mapValues(this.groups)
+    this.mapValues(_groups.get(target))
       .forEach((group) => {
         group.removeClass('active');
       });
@@ -161,7 +177,7 @@ export default class ScrollSpyController {
 
     element.bind('scroll', this.update);
     const window = angular.element(_window.get(this));
-    window.bind('resize', () => (this.update, 100));
+    window.bind('resize', () => _timeout.get(this)(this.update, 100));
 
     this.refresh();
     this.update();
@@ -174,7 +190,7 @@ export default class ScrollSpyController {
   activateItemOnClick(target) {
     this.activeTargetUpdated = true;
     this.activateItem(target);
-    this.scrollableElement[0].scrollTop = this.groups[target].prop('offsetTop');
+    this.scrollableElement[0].scrollTop = _groups.get(target).prop('offsetTop');
     _timeout.get(this)(() => this.activeTargetUpdated = false, 100);
   };
 }

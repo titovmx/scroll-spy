@@ -32,9 +32,4 @@ export default class ScrollSpyAreaDirective {
   }
 }
 
-// ScrollSpyAreaDirective.$inject = ['$window'];
 ScrollSpyAreaDirective.createInstance.$inject = ['$window'];
-
-// export {ScrollSpyAreaDirective};
-
-// module.exports = ScrollSpyAreaDirective;

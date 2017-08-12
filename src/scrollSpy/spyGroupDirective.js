@@ -5,7 +5,7 @@ export default class SpyGroupDirective {
   }
 
   link(scope, elem, attrs, ctrl) {
-    ctrl.groups[attrs.id] = elem;
+    ctrl.setGroup(attrs.id, elem);
 
     ctrl.refresh();
     ctrl.update();

@@ -8,11 +8,11 @@ export default class SpyListItemDirective {
   }
 
   link(scope, elem, attrs, ctrl) {
-    ctrl.listItems[attrs.target] = ctrl.anchors[attrs.spyListItem];
-    ctrl.anchors[attrs.target] = elem;
+    ctrl.setListItem(attrs.target, ctrl.getAnchors(attrs.spyListItem));
+    ctrl.setAnchor(attrs.target, elem);
     if (attrs.spyItemTitle) {
-      ctrl.titles[attrs.target] = _parse.get(this)(attrs.spyItemTitle)(scope)
-        || attrs.spyItemTitle;
+      ctrl.setTitle(attrs.target, () => _parse.get(this)(attrs.spyItemTitle)(scope)
+        || attrs.spyItemTitle);
     }
     elem.bind('click', () => ctrl.activateItemOnClick(attrs.target));
   }
@@ -23,6 +23,5 @@ export default class SpyListItemDirective {
   }
 }
 
-// SpyListItemDirective.$inject = ['$parse'];
 SpyListItemDirective.createInstance.$inject = ['$parse'];
 

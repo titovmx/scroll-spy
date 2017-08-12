@@ -1,3 +1,2 @@
-var app = angular.module('app', ['scroll-spy']);
-
-app.controller('ExampleCtrl', function () {});
+angular.module('app', ['scroll-spy'])
+  .controller('ExampleCtrl', function () {});
