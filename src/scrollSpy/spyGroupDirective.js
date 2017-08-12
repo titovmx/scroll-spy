@@ -1,4 +1,4 @@
-class SpyGroupDirective {
+export default class SpyGroupDirective {
   controller() {
     this.restrict = 'A';
     this.require = '^scrollSpy';
@@ -17,6 +17,3 @@ class SpyGroupDirective {
   }
 }
 
-export {SpyGroupDirective};
-
-// module.exports = SpyGroupDirective;

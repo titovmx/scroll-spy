@@ -1,14 +1,16 @@
-class ScrollSpyAreaDirective {
+const _window = new WeakMap();
+
+export default class ScrollSpyAreaDirective {
   controller($window) {
     this.restrict = 'A';
     this.require = '^scrollSpy';
-    // this.$window = $window;
+    _window.set(this, $window);
   }
 
   link(scope, elem, attrs, ctrl) {
 
     const offset = parseInt(attrs.spyOffset);
-    scope.$watch(() => $window.getComputedStyle(elem[0]).overflowY, (value) => {
+    scope.$watch(() => _window.get(this).getComputedStyle(elem[0]).overflowY, (value) => {
       if (value !== 'hidden') {
         ctrl.activate(elem, offset);
       } else {
@@ -17,7 +19,7 @@ class ScrollSpyAreaDirective {
     });
 
     scope.$watch(() => elem[0].offsetHeight, (value) => {
-      const overflowY = $window.getComputedStyle(elem[0]).overflowY;
+      const overflowY = _window.get(this).getComputedStyle(elem[0]).overflowY;
       if (overflowY !== 'hidden') {
         ctrl.update();
       }
@@ -33,6 +35,6 @@ class ScrollSpyAreaDirective {
 // ScrollSpyAreaDirective.$inject = ['$window'];
 ScrollSpyAreaDirective.createInstance.$inject = ['$window'];
 
-export {ScrollSpyAreaDirective};
+// export {ScrollSpyAreaDirective};
 
 // module.exports = ScrollSpyAreaDirective;

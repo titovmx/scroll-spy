@@ -1,6 +1,6 @@
-import {ScrollSpyController} from './scrollSpyController';
+import * as ScrollSpyController from './scrollSpyController';
 
-class ScrollSpyDirective {
+export default class ScrollSpyDirective {
   constructor() {
     this.restrict = 'A';
     this.controller = ScrollSpyController;
@@ -11,7 +11,3 @@ class ScrollSpyDirective {
     return ScrollSpyDirective.instance;
   }
 }
-
-export {ScrollSpyDirective};
-
-// module.exports = ScrollSpyDirective;

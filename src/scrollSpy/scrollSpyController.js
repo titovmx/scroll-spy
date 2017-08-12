@@ -1,5 +1,12 @@
-class ScrollSpyController {
+const _timeout = new WeakMap();
+const _document = new WeakMap();
+const _window = new WeakMap();
+
+export default class ScrollSpyController {
   controller($timeout, $document, $window) {
+    _timeout.set(this, $timeout);
+    _document.set(this, $document);
+    _window.set(this, $window);
     // div elements associated by target id
     this.groups = {};
     // anchor elements associated by target id
@@ -15,9 +22,6 @@ class ScrollSpyController {
     this.activeTarget = null;
     this.initScrollHeight = 0;
     this.activeTargetUpdated = false;
-    // this.$timeout = $timeout;
-    // this.$document = $document;
-    // this.$window = $window;
   }
 
   mapValues(obj) {
@@ -26,7 +30,8 @@ class ScrollSpyController {
   };
 
   getScrollHeight() {
-    return this.scrollableElement && this.scrollableElement.prop('scrollHeight') || Math.max($document[0].body.scrollHeight, $document[0].scrollHeight);
+    const document = _document.get(this)[0];
+    return this.scrollableElement && this.scrollableElement.prop('scrollHeight') || Math.max(document.body.scrollHeight, document.scrollHeight);
   };
 
   refresh() {
@@ -155,7 +160,7 @@ class ScrollSpyController {
     this.defaultOffset = offset;
 
     element.bind('scroll', this.update);
-    const window = angular.element($window);
+    const window = angular.element(_window.get(this));
     window.bind('resize', () => (this.update, 100));
 
     this.refresh();
@@ -170,12 +175,8 @@ class ScrollSpyController {
     this.activeTargetUpdated = true;
     this.activateItem(target);
     this.scrollableElement[0].scrollTop = this.groups[target].prop('offsetTop');
-    $timeout(() => this.activeTargetUpdated = false, 100);
+    _timeout.get(this)(() => this.activeTargetUpdated = false, 100);
   };
 }
 
 ScrollSpyController.$inject = ['$timeout', '$document', '$window'];
-
-export {ScrollSpyController};
-
-// module.exports = ScrollSpyController;

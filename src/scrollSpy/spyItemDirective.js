@@ -1,14 +1,17 @@
-class SpyItemDirective {
+const _parse = new WeakMap();
+
+export default class SpyItemDirective {
   constructor($parse) {
     this.restrict = 'A';
     this.require = '^scrollSpy';
-    // this.$parse = $parse;
+    _parse.set(this, $parse);
   }
 
   link(scope, elem, attrs, ctrl) {
     ctrl.anchors[attrs.target] = elem;
     if (attrs.spyItemTitle) {
-      ctrl.titles[attrs.target] = $parse(attrs.spyItemTitle)(scope) || attrs.spyItemTitle;
+      ctrl.titles[attrs.target] = _parse.get(this)(attrs.spyItemTitle)(scope)
+        || attrs.spyItemTitle;
     }
     elem.bind('click', () => ctrl.activateItemOnClick(attrs.target));
   }
@@ -21,7 +24,3 @@ class SpyItemDirective {
 
 // SpyItemDirective.$inject = ['$parse'];
 SpyItemDirective.createInstance.$inject = ['$parse'];
-
-export {SpyItemDirective};
-
-// module.exports = SpyItemDirective;
