@@ -1,7 +1,7 @@
 const _window = new WeakMap();
 
 export default class ScrollSpyAreaDirective {
-  controller($window) {
+  constructor($window) {
     this.restrict = 'A';
     this.require = '^scrollSpy';
     _window.set(this, $window);
