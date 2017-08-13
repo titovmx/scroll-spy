@@ -1,0 +1,9 @@
+nav ul li {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+li > a {
+  cursor: pointer;
+}

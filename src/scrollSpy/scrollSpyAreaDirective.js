@@ -17,6 +17,7 @@ export default class ScrollSpyAreaDirective {
         ctrl.deactivate(elem);
       }
     });
+    elem[0].style.position = 'relative';
 
     scope.$watch(() => elem[0].offsetHeight, (value) => {
       const overflowY = _window.get(this).getComputedStyle(elem[0]).overflowY;
