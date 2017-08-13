@@ -1,9 +1,27 @@
+nav {
+  background: #fff;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  border-bottom:1px solid lightgray;
+}
 nav ul li {
   display: inline-block;
   vertical-align: middle;
   margin-right: 10px;
 }
 
+.content {
+  margin-top: 50px;
+}
+
 li > a {
   cursor: pointer;
+}
+
+li.active a {
+  color: darkred;
+}
+.group.active h2 {
+  color: darkred;
 }

@@ -45,7 +45,7 @@ export default class ScrollSpyController {
     && _scrollableElement[0].getAttribute('scrollHeight')
     || _document.has(this)
       ? Math.max(_document.get(this)[0].body.scrollHeight, _document.get(this)[0].scrollHeight)
-      : null;
+      : 0;
   };
 
   refresh() {
@@ -132,9 +132,9 @@ export default class ScrollSpyController {
     if (!_scrollableElement || _activeTargetUpdated) {
       return;
     }
-    const scrollTop = _scrollableElement.prop('scrollTop') + _defaultOffset;
+    const scrollTop = _scrollableElement[0].getAttribute('scrollTop') + _defaultOffset;
     const scrollHeight = this.getScrollHeight();
-    const maxScroll = _defaultOffset + scrollHeight - _scrollableElement.prop('offsetHeight');
+    const maxScroll = _defaultOffset + scrollHeight - _scrollableElement[0].getAttribute('offsetHeight');
 
     if (scrollHeight !== _initScrollHeight) {
       this.refresh();
@@ -167,8 +167,8 @@ export default class ScrollSpyController {
     _defaultOffset = offset;
 
     element.bind('scroll', this.update);
-    const $window = angular.element(_window.get(this));
-    $window.bind('resize', () => _timeout.get(this)(this.update, 100));
+    angular.element(_window.get(this))
+      .bind('resize', () => _timeout.get(this)(this.update, 100));
 
     this.refresh();
     this.update();
