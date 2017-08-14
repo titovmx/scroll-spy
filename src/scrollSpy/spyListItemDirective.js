@@ -4,6 +4,7 @@ export default class SpyListItemDirective {
   constructor($parse) {
     this.restrict = 'A';
     this.require = '^scrollSpy';
+    this.bindToController = true;
     _parse.set(this, $parse);
   }
 

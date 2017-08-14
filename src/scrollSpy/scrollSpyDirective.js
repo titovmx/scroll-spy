@@ -4,6 +4,7 @@ export default class ScrollSpyDirective {
   constructor() {
     this.restrict = 'A';
     this.controller = ScrollSpyController;
+    this.bindToController = true;
   }
 
   static createInstance() {

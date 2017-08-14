@@ -14,7 +14,6 @@ export default class ScrollSpyAreaDirective {
     elem[0].style.position = 'relative';
 
     scope.$watch(() => overflowY, (value) => {
-      alert(value);
       if (value !== 'hidden') {
         ctrl.activate(elem, offset);
       } else {
