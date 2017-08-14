@@ -8,19 +8,20 @@ export default class ScrollSpyAreaDirective {
   }
 
   link(scope, elem, attrs, ctrl) {
-
     const offset = parseInt(attrs.spyOffset);
-    scope.$watch(() => _window.get(this).getComputedStyle(elem[0]).overflowY, (value) => {
+    let overflowY = _window.get(this).getComputedStyle(elem[0]).overflowY;
+
+    elem[0].style.position = 'relative';
+
+    scope.$watch(() => overflowY, (value) => {
+      alert(value);
       if (value !== 'hidden') {
         ctrl.activate(elem, offset);
       } else {
         ctrl.deactivate(elem);
       }
     });
-    elem[0].style.position = 'relative';
-
-    scope.$watch(() => elem[0].offsetHeight, (value) => {
-      const overflowY = _window.get(this).getComputedStyle(elem[0]).overflowY;
+    scope.$watch(elem[0].offsetHeight, () => {
       if (overflowY !== 'hidden') {
         ctrl.update();
       }

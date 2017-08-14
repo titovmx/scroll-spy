@@ -1,62 +1,70 @@
 const _timeout = new WeakMap(),
   _document = new WeakMap(),
-  _window = new WeakMap(),
-  _anchors = new Map(),
-  _groups = new Map(),
-  _listItems = new Map(),
-  _titles = new Map();
-let _offsets = [],
-  _targets = [],
-  _defaultOffset = 10,
-  _initScrollHeight = 0,
-  _scrollableElement = null,
-  _activeTarget = null,
-  _activeTargetUpdated = false;
+  _window = new WeakMap();
+let self = {},
+  offsets = [],
+  targets = [],
+  defaultOffset = 10,
+  initScrollHeight = 0,
+  scrollableElement = null,
+  activeTarget = null,
+  activeTargetUpdated = false;
 
 export default class ScrollSpyController {
   constructor($document, $window, $timeout) {
     _timeout.set(this, $timeout);
     _document.set(this, $document);
     _window.set(this, $window);
+
+    // div elements associated by target id
+    this.groups = new Map();
+    // anchor elements associated by target id
+    this.anchors = new Map();
+    // list item element contained more than one anchor
+    this.listItems = new Map();
+    // anchor elements titles associated by target id
+    this.titles = new Map();
+    // this.activate = this.activate.bind(this);
+    self = this;
   }
 
   getAnchors() {
-    return _anchors;
+    return this.anchors;
   };
 
   setAnchor(name, item) {
-    _anchors.set(name, item);
+    this.anchors.set(name, item);
   };
 
   setGroup(name, item) {
-    _groups.set(name, item);
+    this.groups.set(name, item);
   };
 
   setTitle(name, item) {
-    _titles.set(name, item);
+    this.titles.set(name, item);
   };
 
   setListItem(name, item) {
-    _listItems.set(name, item);
+    this.listItems.set(name, item);
   };
 
   getScrollHeight() {
-    return _scrollableElement
-    && _scrollableElement[0].getAttribute('scrollHeight')
-    || _document.has(this)
-      ? Math.max(_document.get(this)[0].body.scrollHeight, _document.get(this)[0].scrollHeight)
-      : 0;
+    const elementScroll = scrollableElement && scrollableElement[0].scrollHeight ? scrollableElement[0].scrollHeight : 0;
+    const doc = _document.get(this)[0];
+    const bodyScroll = _document.has(this) && doc.body && doc.body.scrollHeight ? doc.body.scrollHeight : 0;
+    const documentScroll = _document.has(this) && doc.scrollHeight ? doc.scrollHeight : 0;
+    return elementScroll || Math.max(bodyScroll, documentScroll);
   };
 
   refresh() {
 
-    _offsets = [];
-    _targets = [];
-    _activeTarget = null;
-    _initScrollHeight = this.getScrollHeight();
+    offsets = [];
+    targets = [];
+    activeTarget = null;
+    initScrollHeight = this.getScrollHeight();
     const offsets_targets = [];
 
-    for (let [key, value] of _groups.entries()) {
+    for (let [key, value] of this.groups.entries()) {
       if (value.css('visibility') !== 'hidden') {
         offsets_targets.push({
           offset: value.prop('offsetTop'),
@@ -64,10 +72,12 @@ export default class ScrollSpyController {
         });
       }
     }
-    offsets_targets.sort((a, b) => a.offset - b.offset).forEach((mappedObj) => {
-      _offsets.push(mappedObj.offset);
-      _targets.push(mappedObj.target);
-    });
+
+    const sorted = offsets_targets.sort((a, b) => a.offset - b.offset);
+    for (let item of sorted) {
+      offsets.push(item.offset);
+      targets.push(item.target);
+    }
   };
 
   getParentListItem(current) {
@@ -82,93 +92,96 @@ export default class ScrollSpyController {
     if (!target) {
       return;
     }
-    _activeTarget = target;
+    activeTarget = target;
     this.clear();
 
-    const listItem = _listItems.get(target);
+    const listItem = this.listItems.get(target);
     if (listItem) {
       this.getParentListItem(listItem).addClass('active');
-      const title = _titles.get(target);
+      const title = this.titles.get(target);
       if (title) {
         listItem.text(title);
       }
     }
 
-    const anchor = _anchors.get(target);
+    const anchor = this.anchors.get(target);
     if (anchor) {
       this.getParentListItem(anchor).addClass('active');
-      const title = _titles.get(target);
+      const title = this.titles.get(target);
       if (title) {
         anchor.text(title);
       }
     }
 
-    _groups.get(target).addClass('active');
+    this.groups.get(target).addClass('active');
   };
 
   clear() {
-    for (let value of _listItems.values()) {
+    for (let value of this.listItems.values()) {
       this.getParentListItem(value).removeClass('active')
     }
-    for (let [key, value] of _anchors.entries()) {
+
+    for (let [key, value] of this.anchors.entries()) {
       this.getParentListItem(value).removeClass('active');
-      if (_titles.has(key)) {
-        const title = _titles.get(key);
+      if (this.titles.has(key)) {
+        const title = this.titles.get(key);
         value.text(title);
       }
     }
-    for (let value of _groups.values()) {
+
+    for (let value of this.groups.values()) {
       value.removeClass('active');
     }
   };
 
   scrollTopWithinGroup(scrollTop, groupIndex) {
-    return _activeTarget !== _targets[groupIndex]
-      && scrollTop >= _offsets[groupIndex] - _defaultOffset
-      && (_offsets[groupIndex + 1] === undefined || scrollTop < _offsets[groupIndex + 1] - _defaultOffset);
+    return activeTarget !== targets[groupIndex]
+      && scrollTop >= offsets[groupIndex] - defaultOffset
+      && (offsets[groupIndex + 1] === undefined || scrollTop < offsets[groupIndex + 1] - defaultOffset);
   };
 
   update() {
-    if (!_scrollableElement || _activeTargetUpdated) {
+    if (!scrollableElement || activeTargetUpdated) {
       return;
     }
-    const scrollTop = _scrollableElement[0].getAttribute('scrollTop') + _defaultOffset;
+    const scrollTop = scrollableElement.prop('scrollTop') + defaultOffset;
     const scrollHeight = this.getScrollHeight();
-    const maxScroll = _defaultOffset + scrollHeight - _scrollableElement[0].getAttribute('offsetHeight');
+    const maxScroll = defaultOffset + scrollHeight - scrollableElement.prop('offsetHeight');
 
-    if (scrollHeight !== _initScrollHeight) {
+    if (scrollHeight !== initScrollHeight) {
       this.refresh();
     }
 
     if (scrollTop >= maxScroll) {
-      const item = scrollTop === _defaultOffset ? _targets[0] : _targets[_targets.length - 1];
-      if (_activeTarget !== item) {
+      const item = scrollTop === defaultOffset ? targets[0] : targets[targets.length - 1];
+      if (activeTarget !== item) {
         this.activateItem(item);
       }
       return;
     }
 
-    if (_activeTarget && scrollTop < _offsets[0] - _defaultOffset) {
-      _activeTarget = null;
+    if (activeTarget && scrollTop < offsets[0] - defaultOffset) {
+      activeTarget = null;
       this.clear();
       return;
     }
 
-    for (let i = 0, length = _offsets.length; i < length; i++) {
+    for (let i = 0, length = offsets.length; i < length; i++) {
       if (this.scrollTopWithinGroup(scrollTop, i)) {
-        this.activateItem(_targets[i]);
+        this.activateItem(targets[i]);
         return;
       }
     }
   };
 
   activate(element, offset) {
-    _scrollableElement = element;
-    _defaultOffset = offset;
+    const self = this;
+    scrollableElement = element;
+    defaultOffset = offset;
 
-    element.bind('scroll', this.update);
-    angular.element(_window.get(this))
-      .bind('resize', () => _timeout.get(this)(this.update, 100));
+    element[0].addEventListener('scroll', self.update);
+    angular.element(_window.get(self))
+      .bind('resize', () => _timeout.get(self)(self.update, 100));
 
     this.refresh();
     this.update();
@@ -179,11 +192,12 @@ export default class ScrollSpyController {
   };
 
   activateItemOnClick(target) {
-    _activeTargetUpdated = true;
+    const self = this;
+    activeTargetUpdated = true;
     this.activateItem(target);
-    _scrollableElement[0].scrollTop = _groups.get(target)[0].getAttribute('offsetTop');
-    setTimeout(() => {
-      _activeTargetUpdated = false;
+    scrollableElement[0].scrollTop = self.groups.get(target).prop('offsetTop');
+    _timeout.get(self)(() => {
+      activeTargetUpdated = false;
     }, 100);
   };
 }
