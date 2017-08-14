@@ -178,16 +178,16 @@ export default class ScrollSpyController {
     scrollableElement = element;
     defaultOffset = offset;
 
-    element.bind('scroll', self.update.bind(self));
+    element.on('scroll', self.update.bind(self));
     angular.element(_window.get(self))
-      .bind('resize', () => _timeout.get(self)(self.update.bind(self), 100));
+      .on('resize', () => _timeout.get(self)(self.update.bind(self), 100));
 
     self.refresh();
     self.update();
   };
 
   deactivate(element) {
-    element.unbind('scroll');
+    element.off('scroll');
   };
 
   activateItemOnClick(target) {
