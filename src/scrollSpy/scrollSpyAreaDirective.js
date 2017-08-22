@@ -7,11 +7,10 @@ export default class ScrollSpyAreaDirective {
 
   link(scope, elem, attrs, ctrl) {
 	const offset = parseInt(attrs.spyOffset);
-	let overflowY = this.$window.getComputedStyle(elem[0]).overflowY;
 
 	elem[0].style.position = 'relative';
 
-	scope.$watch(() => overflowY, (value) => {
+	scope.$watch(() => this.$window.getComputedStyle(elem[0]).overflowY, (value) => {
 	  if (value !== 'hidden') {
 		ctrl.activate(elem, offset);
 	  } else {
@@ -19,7 +18,7 @@ export default class ScrollSpyAreaDirective {
 	  }
 	});
 	scope.$watch(() => elem[0].offsetHeight, () => {
-	  if (overflowY !== 'hidden') {
+	  if (this.$window.getComputedStyle(elem[0]).overflowY !== 'hidden') {
 		ctrl.update();
 	  }
 	});
