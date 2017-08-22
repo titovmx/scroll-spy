@@ -171,9 +171,9 @@ export default class ScrollSpyController {
 	this.scrollableElement = element;
 	this.defaultOffset = offset;
 
-	element.on('scroll', this.update);
+	element.on('scroll', this.update.bind(this));
 	angular.element(this.$window)
-	  .on('resize', () => this.$timeout(this.update, 100));
+	  .on('resize', () => this.$timeout(this.update.bind(this), 100));
 
 	this.refresh();
 	this.update();
