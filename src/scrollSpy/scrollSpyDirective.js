@@ -8,7 +8,6 @@ export default class ScrollSpyDirective {
   }
 
   static createInstance() {
-    ScrollSpyDirective.instance = new ScrollSpyDirective();
-    return ScrollSpyDirective.instance;
+    return new ScrollSpyDirective();
   }
 };

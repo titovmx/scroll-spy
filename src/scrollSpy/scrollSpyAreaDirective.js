@@ -25,8 +25,7 @@ export default class ScrollSpyAreaDirective {
   }
 
   static createInstance($window) {
-	ScrollSpyAreaDirective.instance = new ScrollSpyAreaDirective($window);
-	return ScrollSpyAreaDirective.instance;
+	return new ScrollSpyAreaDirective($window);
   }
 }
 

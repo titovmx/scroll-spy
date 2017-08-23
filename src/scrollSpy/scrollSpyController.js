@@ -57,11 +57,11 @@ export default class ScrollSpyController {
 	this.initScrollHeight = this.getScrollHeight();
 	const offsets_targets = [];
 
-	for (let [key, value] of this.groups.entries()) {
-	  if (value.css('visibility') !== 'hidden') {
+	for (let [groupId, element] of this.groups.entries()) {
+	  if (element.css('visibility') !== 'hidden') {
 		offsets_targets.push({
-		  offset: value.prop('offsetTop'),
-		  target: key
+		  offset: element.prop('offsetTop'),
+		  target: groupId
 		});
 	  }
 	}
@@ -114,11 +114,11 @@ export default class ScrollSpyController {
 	  this.getParentListItem(value).removeClass('active');
 	}
 
-	for (let [key, value] of this.anchors.entries()) {
-	  this.getParentListItem(value).removeClass('active');
-	  if (this.titles.has(key)) {
-		const title = this.titles.get(key);
-		value.text(title);
+	for (let [anchorId, element] of this.anchors.entries()) {
+	  this.getParentListItem(element).removeClass('active');
+	  if (this.titles.has(anchorId)) {
+		const title = this.titles.get(anchorId);
+		element.text(title);
 	  }
 	}
 

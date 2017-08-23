@@ -1,3 +1,4 @@
+import angular from 'angular';
 import ScrollSpyDirective from './scrollSpy/scrollSpyDirective';
 import ScrollSpyAreaDirective from './scrollSpy/scrollSpyAreaDirective';
 import SpyItemDirective from './scrollSpy/spyItemDirective';

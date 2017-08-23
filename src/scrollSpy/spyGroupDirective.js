@@ -13,7 +13,6 @@ export default class SpyGroupDirective {
   }
 
   static createInstance() {
-    SpyGroupDirective.instance = new SpyGroupDirective();
-    return SpyGroupDirective.instance;
+    return new SpyGroupDirective();
   }
 }

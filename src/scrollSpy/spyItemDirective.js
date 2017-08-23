@@ -16,8 +16,7 @@ export default class SpyItemDirective {
   }
 
   static createInstance($parse) {
-	SpyItemDirective.instance = new SpyItemDirective($parse);
-	return SpyItemDirective.instance;
+	return new SpyItemDirective($parse);
   }
 }
 
