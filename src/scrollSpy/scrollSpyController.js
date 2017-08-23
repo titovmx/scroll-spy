@@ -1,3 +1,4 @@
+import angular from 'angular';
 export default class ScrollSpyController {
   constructor($document, $window, $timeout) {
 	this.$timeout = $timeout;
@@ -159,7 +160,7 @@ export default class ScrollSpyController {
 	  return;
 	}
 
-	for (let i = 0, length = this.offsets.length; i < length; i++) {
+	for (let i = 0; i < this.offsets.length; i++) {
 	  if (this.scrollTopWithinGroup(scrollTop, i)) {
 		this.activateItem(this.targets[i]);
 		return;
